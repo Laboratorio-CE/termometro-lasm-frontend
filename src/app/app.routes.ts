@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: 'inicio'},
+    { path: '', pathMatch: 'full', redirectTo: 'inicio' },
 
     { path: 'inicio', loadComponent: () => import('./pages/inicio/inicio').then(m => m.Inicio) },
     { path: 'checkin', loadComponent: () => import('./pages/checkin/checkin').then(m => m.Checkin) },
@@ -11,7 +11,7 @@ export const routes: Routes = [
 
     { path: 'admin/login', loadComponent: () => import('./pages/admin/login/login').then(m => m.Login) },
     {
-        path: 'admin', loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell), 
+        path: 'admin', loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell),
         children: [
             { path: '', loadComponent: () => import('./pages/admin/indicadores/indicadores').then(m => m.Indicadores) },
             { path: 'conteudos', loadComponent: () => import('./pages/admin/conteudos-admin/conteudos-admin').then(m => m.ConteudosAdmin) },
@@ -19,6 +19,6 @@ export const routes: Routes = [
             { path: 'respostas', loadComponent: () => import('./pages/admin/respostas/respostas').then(m => m.Respostas) }
         ]
     },
-    
+
     { path: '**', loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound) }
 ];

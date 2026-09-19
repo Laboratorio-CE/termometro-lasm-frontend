@@ -6,3 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:80"
+    networks:
+      - termometro-lasm
+networks:
+  termometro-lasm:
+    external: true

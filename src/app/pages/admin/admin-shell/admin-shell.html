@@ -1,1 +1,21 @@
-<p>admin-shell works!</p>
+<div class="h-screen flex">
+  <aside class="w-56 shrink-0 border-r p-5">
+    <p class="font-semibold ">{{ title() }}</p>
+    <p class="font-semibold mb-6">{{ admintitle() }}</p>
+    <nav>
+      <ul class="flex flex-col gap-1">
+        @for (item of itens; track item.rota) {
+          <li>
+            <a [routerLink]="item.rota"
+               routerLinkActive="font-medium"
+               class="block py-2">{{ item.texto }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="flex-1 min-w-0 p-6 overflow-auto">
+    <router-outlet />
+  </main>
+</div>

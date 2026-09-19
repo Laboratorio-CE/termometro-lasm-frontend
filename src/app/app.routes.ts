@@ -1,13 +1,18 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'inicio' },
-
-    { path: 'inicio', loadComponent: () => import('./pages/inicio/inicio').then(m => m.Inicio) },
-    { path: 'checkin', loadComponent: () => import('./pages/checkin/checkin').then(m => m.Checkin) },
-    { path: 'conteudos', loadComponent: () => import('./pages/conteudos/conteudos/conteudos').then(m => m.Conteudos) },
-    { path: 'conteudos/:slug', loadComponent: () => import('./pages/conteudos/leitura/leitura').then(m => m.Leitura) },
-    { path: 'ajuda', loadComponent: () => import('./pages/ajuda/ajuda').then(m => m.Ajuda) },
+    {
+        path: '',
+        loadComponent: () => import('./pages/public-shell/public-shell').then(m => m.PublicShell),
+        children: [
+            { path: '', pathMatch: 'full', redirectTo: 'inicio' },
+            { path: 'inicio', loadComponent: () => import('./pages/inicio/inicio').then(m => m.Inicio) },
+            { path: 'checkin', loadComponent: () => import('./pages/checkin/checkin').then(m => m.Checkin) },
+            { path: 'conteudos', loadComponent: () => import('./pages/conteudos/conteudos/conteudos').then(m => m.Conteudos) },
+            { path: 'conteudos/:slug', loadComponent: () => import('./pages/conteudos/leitura/leitura').then(m => m.Leitura) },
+            { path: 'ajuda', loadComponent: () => import('./pages/ajuda/ajuda').then(m => m.Ajuda) },
+        ]
+    },
 
     { path: 'admin', pathMatch: 'full', loadComponent: () => import('./pages/admin/login/login').then(m => m.Login) },
     {

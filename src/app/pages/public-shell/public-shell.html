@@ -1,0 +1,23 @@
+<div class="h-screen flex flex-col">
+  <header class="border-b">
+    <div class="mx-auto max-w-180 px-5 h-18 flex items-center font-semibold">
+      {{title()}}
+    </div>
+  </header>
+
+  <nav class="border-b">
+    <ul class="mx-auto max-w-180 px-5 flex gap-6 overflow-x-auto">
+      @for (aba of abas; track aba.rota) {
+        <li>
+          <a [routerLink]="aba.rota"
+             routerLinkActive="border-b-[3px] font-medium"
+             class="block py-3 whitespace-nowrap">{{ aba.texto }}</a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <main class="flex-1 min-h-0 px-5 py-6 bg-slate-900 text-white flex flex-col items-center justify-center text-2xl font-bold">
+    <router-outlet />
+  </main>
+</div>

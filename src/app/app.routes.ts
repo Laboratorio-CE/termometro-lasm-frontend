@@ -13,7 +13,7 @@ export const routes: Routes = [
     {
         path: 'admin', loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell),
         children: [
-            { path: '', loadComponent: () => import('./pages/admin/indicadores/indicadores').then(m => m.Indicadores) },
+            { path: 'indicadores', loadComponent: () => import('./pages/admin/indicadores/indicadores').then(m => m.Indicadores) },
             { path: 'conteudos', loadComponent: () => import('./pages/admin/conteudos-admin/conteudos-admin').then(m => m.ConteudosAdmin) },
             { path: 'conteudos/:id', loadComponent: () => import('./pages/admin/conteudos-editor/conteudos-editor').then(m => m.ConteudosEditor) },
             { path: 'respostas', loadComponent: () => import('./pages/admin/respostas/respostas').then(m => m.Respostas) }

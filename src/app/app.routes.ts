@@ -9,9 +9,9 @@ export const routes: Routes = [
     { path: 'conteudos/:slug', loadComponent: () => import('./pages/conteudos/leitura/leitura').then(m => m.Leitura) },
     { path: 'ajuda', loadComponent: () => import('./pages/ajuda/ajuda').then(m => m.Ajuda) },
 
-    { path: 'admin', loadComponent: () => import('./pages/admin/login/login').then(m => m.Login) },
+    { path: 'admin', pathMatch: 'full', loadComponent: () => import('./pages/admin/login/login').then(m => m.Login) },
     {
-        path: 'admin/**', loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell),
+        path: 'admin', loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell),
         children: [
             { path: '', loadComponent: () => import('./pages/admin/indicadores/indicadores').then(m => m.Indicadores) },
             { path: 'conteudos', loadComponent: () => import('./pages/admin/conteudos-admin/conteudos-admin').then(m => m.ConteudosAdmin) },

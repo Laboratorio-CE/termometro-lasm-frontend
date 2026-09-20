@@ -13,6 +13,7 @@ export class Login implements OnInit {
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);
   private readonly rotaAtual = inject(ActivatedRoute);
+  readonly bloqueado = signal(false);
 
   readonly erro = signal('');
   readonly enviando = signal(false);
@@ -29,6 +30,10 @@ export class Login implements OnInit {
     });
   }
   logar(email: string, senha: string) {
+    if (this.bloqueado() || this.enviando()) {
+      return;
+    }
+
     this.erro.set('');
     this.enviando.set(true);
 
@@ -36,13 +41,22 @@ export class Login implements OnInit {
       next: () => 
         this.auth.carregarSessao().subscribe(() => this.router.navigateByUrl(this.destino())),
         error: (erro) => {
-          this.erro.set(
-            erro.status === 429
-            ? 'Muitas tentativas de login. Tente novamente mais tarde.'
-            : 'Email ou senha inválidos.'
-          );
+          if (erro.status === 429) {
+            this.bloquear();
+          } else {
+            this.erro.set('Email ou senha inválidos');
+          }
           this.enviando.set(false);
         },
     });
+  }
+  private bloquear() {
+    this.bloqueado.set(true);
+    this.erro.set('Muitas tentativas de login. Tente novamente mais tarde.');
+    console.log('Vai ficar de castigo por 5 minutos');
+    setTimeout(() => {
+      this.bloqueado.set(false);
+      this.erro.set('');
+    }, 5 * 60 * 1000); // 5 minutinho de castigo
   }
 }

@@ -5,22 +5,34 @@
   <form (ngSubmit)="logar(campoEmail.value, campoSenha.value)" class="flex flex-col gap-4">
     <label class="flex flex-col gap-1 text-sm">
       E-mail
-      <input #campoEmail type="email" required autocomplete="username"
-        class="border border-gray-400 px-3 py-2 text-black" />
+      <input 
+      #campoEmail 
+      type="email" 
+      required 
+      autocomplete="username" 
+      [disabled]="bloqueado()"
+      class="border border-gray-400 px-3 py-2 text-black" />
     </label>
 
     <label class="flex flex-col gap-1 text-sm">
       Senha
-      <input #campoSenha type="password" required autocomplete="current-password"
-        class="border border-gray-400 px-3 py-2 text-black" />
+      <input 
+      #campoSenha 
+      type="password" 
+      required 
+      autocomplete="current-password"
+      [disabled]="bloqueado()"
+      class="border border-gray-400 px-3 py-2 text-black" />
     </label>
 
     @if (erro()) {
       <p role="alert" class="text-sm text-red-700">{{ erro() }}</p>
     }
 
-    <button type="submit" [disabled]="enviando()"
-      class="border border-gray-400 bg-gray-200 px-4 py-2 text-sm text-black shadow-sm hover:bg-gray-300 active:translate-y-px active:shadow-none hover:cursor-pointer disabled:opacity-60">
+    <button 
+    type="submit" 
+    [disabled]="enviando() || bloqueado()"
+    class="border border-gray-400 bg-gray-200 px-4 py-2 text-sm text-black shadow-sm not-disabled:hover:bg-gray-300 not-disabled:hover:cursor-pointer not-disabled:active:translate-y-px not-disabled:active:shadow-none disabled:opacity-60 disabled:cursor-not-allowed">
       {{ enviando() ? 'Entrando…' : 'Entrar' }}
     </button>
   </form>

@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Auth } from '../../../core/api/auth';
 
 @Component({
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
@@ -7,7 +8,9 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './admin-shell.css',
   templateUrl: './admin-shell.html',
 })
-export class AdminShell {
+export class AdminShell implements OnInit {
+  protected readonly auth = inject(Auth);
+  private readonly router = inject(Router);
   protected readonly title = signal('LASM');
   protected readonly admintitle = signal('Painel Admin');
   protected readonly itens = [
@@ -15,4 +18,12 @@ export class AdminShell {
     { rota: '/admin/conteudos', texto: 'Conteúdos' },
     { rota: '/admin/respostas', texto: 'Respostas' },
   ];
+
+  ngOnInit() {
+    this.auth.carregarSessao().subscribe();
+  }
+
+  deslogar() {
+    this.auth.deslogar().subscribe(() => this.router.navigate(['/admin']));
+  }
 }

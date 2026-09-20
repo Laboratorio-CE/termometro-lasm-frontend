@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -16,7 +17,9 @@ export const routes: Routes = [
 
     { path: 'admin', pathMatch: 'full', loadComponent: () => import('./pages/admin/login/login').then(m => m.Login) },
     {
-        path: 'admin', loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell),
+        path: 'admin', 
+        canActivate: [authGuard],
+        loadComponent: () => import('./pages/admin/admin-shell/admin-shell').then(m => m.AdminShell),
         children: [
             { path: 'indicadores', loadComponent: () => import('./pages/admin/indicadores/indicadores').then(m => m.Indicadores) },
             { path: 'conteudos', loadComponent: () => import('./pages/admin/conteudos-admin/conteudos-admin').then(m => m.ConteudosAdmin) },

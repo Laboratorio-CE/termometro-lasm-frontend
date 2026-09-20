@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../../core/api/auth';
 
@@ -12,14 +12,19 @@ import { Auth } from '../../../core/api/auth';
 export class Login implements OnInit {
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);
+  private readonly rotaAtual = inject(ActivatedRoute);
 
   readonly erro = signal('');
   readonly enviando = signal(false);
 
+  private destino() {
+    return this.rotaAtual.snapshot.queryParamMap.get('retorno') ?? '/admin/indicadores';
+  }  
+
   ngOnInit() {
     this.auth.carregarSessao().subscribe((usuario) => {
       if (usuario) {
-        this.router.navigate(['/admin/indicadores']);
+        this.router.navigateByUrl(this.destino());
       }
     });
   }
@@ -29,7 +34,7 @@ export class Login implements OnInit {
 
     this.auth.logar(email, senha).subscribe({
       next: () => 
-        this.auth.carregarSessao().subscribe(() => this.router.navigate(['/admin/indicadores'])),
+        this.auth.carregarSessao().subscribe(() => this.router.navigateByUrl(this.destino())),
         error: () => {
           this.erro.set('Email ou senha inválidos');
           this.enviando.set(false);

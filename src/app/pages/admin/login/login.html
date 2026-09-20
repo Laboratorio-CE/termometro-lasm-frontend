@@ -1,4 +1,26 @@
 <div class="mx-auto max-w-sm px-5 py-16">
   <h1 class="text-2xl font-semibold mb-6">Painel Administrativo</h1>
-  <a routerLink="/admin/indicadores" class="border border-gray-400 bg-gray-200 px-4 py-2 text-sm text-black shadow-sm hover:bg-gray-300 active:translate-y-px active:shadow-none hover:cursor-pointer">Entrar</a>
+
+  <form (ngSubmit)="logar(campoEmail.value, campoSenha.value)" class="flex flex-col gap-4">
+    <label class="flex flex-col gap-1 text-sm">
+      E-mail
+      <input #campoEmail type="email" required autocomplete="username"
+        class="border border-gray-400 px-3 py-2 text-black" />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm">
+      Senha
+      <input #campoSenha type="password" required autocomplete="current-password"
+        class="border border-gray-400 px-3 py-2 text-black" />
+    </label>
+
+    @if (erro()) {
+      <p role="alert" class="text-sm text-red-700">{{ erro() }}</p>
+    }
+
+    <button type="submit" [disabled]="enviando()"
+      class="border border-gray-400 bg-gray-200 px-4 py-2 text-sm text-black shadow-sm hover:bg-gray-300 active:translate-y-px active:shadow-none hover:cursor-pointer disabled:opacity-60">
+      {{ enviando() ? 'Entrando…' : 'Entrar' }}
+    </button>
+  </form>
 </div>

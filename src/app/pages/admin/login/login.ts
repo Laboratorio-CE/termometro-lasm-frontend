@@ -35,8 +35,12 @@ export class Login implements OnInit {
     this.auth.logar(email, senha).subscribe({
       next: () => 
         this.auth.carregarSessao().subscribe(() => this.router.navigateByUrl(this.destino())),
-        error: () => {
-          this.erro.set('Email ou senha inválidos');
+        error: (erro) => {
+          this.erro.set(
+            erro.status === 429
+            ? 'Muitas tentativas de login. Tente novamente mais tarde.'
+            : 'Email ou senha inválidos.'
+          );
           this.enviando.set(false);
         },
     });

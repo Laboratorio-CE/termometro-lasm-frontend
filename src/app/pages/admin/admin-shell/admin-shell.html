@@ -1,8 +1,10 @@
 <div class="h-screen flex">
-  <aside class="w-56 shrink-0 border-r p-5">
-    <p class="font-semibold ">{{ title() }}</p>
-    <p class="font-semibold mb-6">{{ admintitle() }}</p>
-    <nav>
+  <div class="flex flex-col">
+    
+    <aside class="w-56 shrink-0 border-r p-5 flex flex-col">
+      <p class="font-semibold ">{{ title() }}</p>
+      <p class="font-semibold mb-6">{{ admintitle() }}</p>
+    <nav class="flex flex-1 flex-col">
       <ul class="flex flex-col gap-1">
         @for (item of itens; track item.rota) {
           <li>
@@ -13,7 +15,19 @@
         }
       </ul>
     </nav>
-  </aside>
+    </aside>
+
+      <div class="mt-auto w-full border-t p-5">
+        <p class="font-semibold">{{ auth.usuario()?.email }}</p>
+        <p class="text-sm">{{ auth.usuario()?.papel }}</p>
+
+        <button 
+        (click)="deslogar()"
+        class="mt-4 py-2 text-sm hover:text-red-700 hover:cursor-pointer">
+          Sair do painel →
+        </button>
+      </div>
+    </div>
 
   <main class="flex-1 min-w-0 p-6 overflow-auto bg-slate-900 text-white text-2xl font-bold">
     <router-outlet />

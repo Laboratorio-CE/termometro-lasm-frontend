@@ -1,1 +1,69 @@
-<p>conteudos-admin works!</p>
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-xl font-semibold text-roxo">Conteúdos</h1>
+  <a routerLink="/admin/conteudos/novo" class="botao-primario">Novo conteúdo</a>
+</div>
+
+<div class="flex flex-wrap gap-4 mb-6">
+  <label class="flex flex-col gap-1 text-sm font-medium">
+    Status
+    <select #campoStatus (change)="filtrar(campoStatus.value, campoCategoria.value)" class="campo">
+      <option value="">Todos</option>
+      <option value="RASCUNHO">Rascunho</option>
+      <option value="PUBLICADO">Publicado</option>
+    </select>
+  </label>
+  <label class="flex flex-col gap-1 text-sm font-medium">
+    Categoria
+    <select #campoCategoria (change)="filtrar(campoStatus.value, campoCategoria.value)" class="campo">
+      <option value="">Todas</option>
+      @for (c of categorias; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+  </label>
+</div>
+
+@if (carregando()) {
+  <p class="text-tinta-suave">Carregando…</p>
+} @else if (erro()) {
+  <p role="alert">Não foi possível carregar os conteúdos.</p>
+  <button (click)="carregar()" class="botao-secundario mt-4">Tentar de novo</button>
+} @else if (conteudos().length === 0) {
+  <div class="rounded-cartao border border-linha bg-superficie p-8 text-center">
+    <p class="mb-4">Nenhum conteúdo por aqui ainda.</p>
+    <a routerLink="/admin/conteudos/novo" class="botao-primario">Criar conteúdo</a>
+  </div>
+} @else {
+  <div class="overflow-x-auto rounded-cartao border border-linha">
+    <table class="w-full text-sm text-left">
+      <thead class="bg-superficie text-tinta-suave">
+        <tr>
+          <th class="px-4 py-3 font-medium">Título</th>
+          <th class="px-4 py-3 font-medium">Categoria</th>
+          <th class="px-4 py-3 font-medium">Status</th>
+          <th class="px-4 py-3 font-medium">Revisor</th>
+          <th class="px-4 py-3 font-medium">Atualizado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of conteudos(); track c.id) {
+          <tr class="border-t border-linha">
+            <td class="px-4 py-3">
+              <a [routerLink]="['/admin/conteudos', c.id]" class="font-medium text-roxo hover:underline">{{ c.titulo }}</a>
+            </td>
+            <td class="px-4 py-3">{{ c.categoria }}</td>
+            <td class="px-4 py-3">
+              @if (c.status === 'PUBLICADO') {
+                <span class="whitespace-nowrap rounded-full bg-verde-claro px-3 py-1 text-xs font-medium text-verde-texto">Publicado</span>
+              } @else {
+                <span class="whitespace-nowrap rounded-full border border-linha bg-superficie px-3 py-1 text-xs font-medium text-tinta-suave">Rascunho</span>
+              }
+            </td>
+            <td class="px-4 py-3 text-tinta-suave">{{ c.revisor ?? '—' }}</td>
+            <td class="px-4 py-3 text-tinta-suave whitespace-nowrap">{{ c.atualizadoEm | date: 'dd/MM/yyyy HH:mm' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

@@ -1,35 +1,46 @@
 <div class="h-screen flex">
-  <div class="flex flex-col">
-    
-    <aside class="w-56 shrink-0 border-r p-5 flex flex-col">
-      <p class="font-semibold ">{{ title() }}</p>
-      <p class="font-semibold mb-6">{{ admintitle() }}</p>
-    <nav class="flex flex-1 flex-col">
+  <aside class="w-60 shrink-0 border-r border-linha bg-superficie flex flex-col">
+    <div class="p-5">
+      <p class="text-lg font-semibold text-roxo">{{ title() }}</p>
+      <p class="text-sm text-tinta-suave">{{ admintitle() }}</p>
+    </div>
+
+    <nav class="flex-1 overflow-auto px-3">
       <ul class="flex flex-col gap-1">
         @for (item of itens; track item.rota) {
           <li>
             <a [routerLink]="item.rota"
-               routerLinkActive="font-medium"
-               class="block py-2">{{ item.texto }}</a>
+               routerLinkActive="bg-roxo-claro font-medium text-roxo!"
+               class="flex min-h-11 items-center rounded-lg px-3 text-tinta-suave hover:text-roxo">{{ item.texto }}</a>
+          </li>
+        }
+      </ul>
+
+      <p class="mt-6 mb-1 px-3 text-sm font-semibold text-tinta">Páginas</p>
+      <ul class="flex flex-col gap-1">
+        @for (pagina of paginas(); track pagina.chave) {
+          <li>
+            <a [routerLink]="['/admin/paginas', pagina.chave]"
+               routerLinkActive="bg-roxo-claro font-medium text-roxo!"
+               class="flex min-h-11 items-center rounded-lg px-3 text-tinta-suave hover:text-roxo">{{ nomesPaginas[pagina.chave] ?? pagina.chave }}</a>
           </li>
         }
       </ul>
     </nav>
-    </aside>
 
-      <div class="mt-auto w-full border-t p-5">
-        <p class="font-semibold">{{ auth.usuario()?.email }}</p>
-        <p class="text-sm">{{ auth.usuario()?.papel }}</p>
+    <div class="border-t border-linha p-5">
+      <p class="text-sm font-medium break-all">{{ auth.usuario()?.email }}</p>
+      <p class="text-xs text-tinta-suave">{{ auth.usuario()?.papel }}</p>
 
-        <button 
+      <button
         (click)="deslogar()"
-        class="mt-4 py-2 text-sm hover:text-red-700 hover:cursor-pointer">
-          Sair do painel →
-        </button>
-      </div>
+        class="mt-3 min-h-11 text-sm text-tinta-suave hover:text-roxo hover:cursor-pointer">
+        Sair do painel →
+      </button>
     </div>
+  </aside>
 
-  <main class="flex-1 min-w-0 p-6 overflow-auto bg-slate-900 text-white text-2xl font-bold">
+  <main class="flex-1 min-w-0 p-8 overflow-auto">
     <router-outlet />
   </main>
 </div>

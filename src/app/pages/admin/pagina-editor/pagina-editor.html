@@ -1,0 +1,31 @@
+@if (carregando()) {
+  <p class="text-tinta-suave">Carregando…</p>
+} @else if (pagina(); as p) {
+  <h1 class="text-xl font-semibold text-roxo">Página: {{ p.chave }}</h1>
+  <p class="text-sm text-tinta-suave mb-6">Atualizado em {{ p.atualizadoEm | date: 'dd/MM/yyyy HH:mm' }}</p>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()" class="flex max-w-180 flex-col gap-5">
+    <label class="flex flex-col gap-1 text-sm font-medium">
+      Título
+      <input formControlName="titulo" maxlength="200" class="campo" />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm font-medium">
+      Corpo
+      <textarea formControlName="corpo" rows="16" class="campo"></textarea>
+    </label>
+
+    @if (erro()) {
+      <p role="alert" class="text-sm text-ambar-texto">{{ erro() }}</p>
+    }
+    @if (salvo()) {
+      <p role="status" class="rounded-lg bg-verde-claro px-4 py-3 text-sm text-verde-texto">Alterações salvas.</p>
+    }
+
+    <button type="submit" [disabled]="enviando() || form.pristine" class="botao-primario self-start">
+      {{ enviando() ? 'Salvando…' : 'Salvar' }}
+    </button>
+  </form>
+} @else {
+  <p role="alert">{{ erro() }}</p>
+}

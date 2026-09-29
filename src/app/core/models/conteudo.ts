@@ -27,3 +27,15 @@ export interface ConteudoForm {
     corpo: string;
     minutos: number | null;
 }
+
+/** Visão pública. Na listagem o corpo vem nulo. */
+export interface ConteudoPublico {
+    id: number;
+    slug: string;
+    titulo: string;
+    categoria: string;
+    resumo: string | null;
+    minutos: number | null;
+    publicadoEm: string;
+    corpo: string | null;
+}

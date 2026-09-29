@@ -1,8 +1,15 @@
-<h1 class="text-2xl font-semibold text-roxo mb-2">Como você está hoje?</h1>
-<p class="mb-6">Registre seu check-in, leia conteúdo da liga ou encontre caminhos de ajuda.</p>
+<h1 class="text-2xl font-semibold text-roxo mb-2">{{ pagina()?.titulo || 'Como você está hoje?' }}</h1>
+@if (pagina()?.corpo) {
+  <p class="mb-6 whitespace-pre-line">{{ pagina()?.corpo }}</p>
+}
 
-<ul class="flex flex-col gap-3">
+<ul class="mb-8 flex flex-col gap-3">
   <li><a routerLink="/checkin" class="text-roxo underline">Fazer check-in</a></li>
   <li><a routerLink="/conteudos" class="text-roxo underline">Ver conteúdos</a></li>
   <li><a routerLink="/ajuda" class="text-roxo underline">Preciso de ajuda</a></li>
 </ul>
+
+@if (destaque(); as conteudo) {
+  <h2 class="mb-3 text-sm font-medium text-tinta-suave">Conteúdo mais recente</h2>
+  <app-cartao-conteudo [conteudo]="conteudo" />
+}

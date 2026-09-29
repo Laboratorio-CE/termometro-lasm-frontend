@@ -1,1 +1,13 @@
-<p>cartao-conteudo works!</p>
+<a [routerLink]="['/conteudos', conteudo().slug]"
+   class="block rounded-cartao border border-linha bg-papel p-5 hover:border-roxo">
+  <div class="mb-2 flex items-center gap-3 text-xs">
+    <span class="rounded-full bg-roxo-claro px-3 py-1 font-medium text-roxo">{{ conteudo().categoria }}</span>
+    @if (conteudo().minutos) {
+      <span class="text-tinta-suave">{{ conteudo().minutos }} min de leitura</span>
+    }
+  </div>
+  <h2 class="text-lg font-semibold text-tinta">{{ conteudo().titulo }}</h2>
+  @if (conteudo().resumo) {
+    <p class="mt-1 text-tinta-suave">{{ conteudo().resumo }}</p>
+  }
+</a>

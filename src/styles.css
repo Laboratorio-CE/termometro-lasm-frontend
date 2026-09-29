@@ -1,2 +1,67 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+/* Tokens do DESIGN.md. As cores padrão do Tailwind são removidas: só entra cor que é token. */
+@theme {
+  --color-*: initial;
+  --color-roxo: #574b79;
+  --color-roxo-escuro: #4a3f68;
+  --color-roxo-claro: #efeaf6;
+  --color-verde: #1e7a61;
+  --color-verde-texto: #17624e;
+  --color-verde-claro: #e7f2ee;
+  --color-tinta: #1f1b2b;
+  --color-tinta-suave: #5b5470;
+  --color-linha: #e6e1ee;
+  --color-papel: #ffffff;
+  --color-superficie: #f8f6fb;
+  --color-ambar: #b4741c;
+  --color-ambar-texto: #8a5a12;
+  --color-humor-1: #6b54a0;
+  --color-humor-2: #8a6aa8;
+  --color-humor-3: #b4741c;
+  --color-humor-4: #5fa36f;
+  --color-humor-5: #1e7a61;
+
+  --font-sans: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+
+  /* Escala 13 / 15 / 17 / 20 / 24 / 32 / 40 */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.6;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.25;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 1.25;
+  --text-3xl: 2.5rem;
+  --text-3xl--line-height: 1.25;
+
+  --radius-cartao: 10px;
+  --shadow-sm: 0 1px 2px rgb(31 27 43 / 0.06);
+}
+
+@layer base {
+  body {
+    @apply bg-papel font-sans text-base text-tinta;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-3 outline-roxo;
+  }
+}
+
+@utility campo {
+  @apply rounded-lg border border-linha bg-papel px-3 py-2.5 text-base text-tinta disabled:bg-superficie disabled:text-tinta-suave;
+}
+
+@utility botao-primario {
+  @apply inline-flex h-12 items-center justify-center rounded-lg bg-roxo px-5 font-medium text-papel not-disabled:cursor-pointer not-disabled:hover:bg-roxo-escuro disabled:opacity-50;
+}
+
+@utility botao-secundario {
+  @apply inline-flex h-12 items-center justify-center rounded-lg border border-roxo bg-papel px-5 font-medium text-roxo not-disabled:cursor-pointer not-disabled:hover:bg-roxo-claro disabled:opacity-50;
+}

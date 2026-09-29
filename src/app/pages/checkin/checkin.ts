@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Pagina } from '../../core/api/pagina';
 
 @Component({
   imports: [],
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './checkin.css',
   templateUrl: './checkin.html',
 })
-export class Checkin {}
+export class Checkin {
+  protected readonly pagina = toSignal(inject(Pagina).buscar('checkin'));
+}

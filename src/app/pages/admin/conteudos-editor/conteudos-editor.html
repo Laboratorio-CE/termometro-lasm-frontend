@@ -1,1 +1,90 @@
-<p>conteudos-editor works!</p>
+<a routerLink="/admin/conteudos" class="text-sm text-tinta-suave hover:text-roxo">← Conteúdos</a>
+<h1 class="text-xl font-semibold text-roxo mt-2 mb-6">{{ conteudo() ? 'Editar conteúdo' : 'Novo conteúdo' }}</h1>
+
+@if (carregando()) {
+  <p class="text-tinta-suave">Carregando…</p>
+} @else if (falhaAoCarregar()) {
+  <p role="alert">Não foi possível carregar o conteúdo.</p>
+} @else {
+  <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
+    <form [formGroup]="form" (ngSubmit)="salvar()" id="form-conteudo" class="flex max-w-180 flex-1 flex-col gap-5">
+      <label class="flex flex-col gap-1 text-sm font-medium">
+        Título
+        <input formControlName="titulo" class="campo" />
+      </label>
+
+      <label class="flex flex-col gap-1 text-sm font-medium">
+        Slug
+        <input formControlName="slug" class="campo" />
+        @if (form.controls.slug.invalid && form.controls.slug.dirty) {
+          <span class="font-normal text-ambar-texto">Use letras minúsculas, números e hífen.</span>
+        }
+      </label>
+
+      <div class="flex flex-wrap gap-4">
+        <label class="flex flex-1 flex-col gap-1 text-sm font-medium">
+          Categoria
+          <select formControlName="categoria" class="campo">
+            <option value="" disabled>Selecione</option>
+            @for (c of categorias; track c) {
+              <option [value]="c">{{ c }}</option>
+            }
+          </select>
+        </label>
+        <label class="flex w-44 flex-col gap-1 text-sm font-medium">
+          Tempo de leitura (min)
+          <input formControlName="minutos" type="number" min="1" class="campo" />
+        </label>
+      </div>
+
+      <label class="flex flex-col gap-1 text-sm font-medium">
+        Resumo
+        <textarea formControlName="resumo" rows="2" maxlength="300" class="campo"></textarea>
+      </label>
+
+      <label class="flex flex-col gap-1 text-sm font-medium">
+        Corpo
+        <textarea formControlName="corpo" rows="16" class="campo"></textarea>
+      </label>
+    </form>
+
+    <aside class="flex flex-col gap-3 rounded-cartao border border-linha bg-superficie p-5 lg:sticky lg:top-0 lg:w-64">
+      <p class="flex items-center gap-2 text-sm">
+        Status
+        @if (publicado()) {
+          <span class="rounded-full bg-verde-claro px-3 py-1 text-xs font-medium text-verde-texto">Publicado</span>
+        } @else {
+          <span class="rounded-full border border-linha bg-papel px-3 py-1 text-xs font-medium text-tinta-suave">Rascunho</span>
+        }
+      </p>
+      @if (conteudo(); as c) {
+        <p class="text-xs text-tinta-suave">
+          Atualizado em {{ c.atualizadoEm | date: 'dd/MM/yyyy HH:mm' }}
+          @if (c.revisor) { por {{ c.revisor }} }
+        </p>
+      }
+
+      @if (erro()) {
+        <p role="alert" class="text-sm text-ambar-texto">{{ erro() }}</p>
+      }
+
+      @if (publicado()) {
+        <button (click)="despublicar()" [disabled]="enviando()" class="botao-secundario">
+          Voltar para rascunho
+        </button>
+      } @else {
+        <button type="submit" form="form-conteudo" [disabled]="enviando() || form.invalid" class="botao-secundario">
+          Salvar rascunho
+        </button>
+        <button (click)="publicar()" [disabled]="enviando() || !conteudo() || form.dirty" class="botao-primario">
+          Publicar
+        </button>
+        @if (conteudo()) {
+          <button (click)="excluir()" [disabled]="enviando()" class="min-h-11 text-sm text-tinta-suave underline not-disabled:cursor-pointer not-disabled:hover:text-tinta disabled:opacity-50">
+            Excluir
+          </button>
+        }
+      }
+    </aside>
+  </div>
+}

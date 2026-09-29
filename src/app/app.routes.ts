@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 
+const confirmarSaida = (tela: { podeSair(): boolean }) => tela.podeSair();
+
 export const routes: Routes = [
     {
         path: '',
@@ -23,7 +25,8 @@ export const routes: Routes = [
         children: [
             { path: 'indicadores', loadComponent: () => import('./pages/admin/indicadores/indicadores').then(m => m.Indicadores) },
             { path: 'conteudos', loadComponent: () => import('./pages/admin/conteudos-admin/conteudos-admin').then(m => m.ConteudosAdmin) },
-            { path: 'conteudos/:id', loadComponent: () => import('./pages/admin/conteudos-editor/conteudos-editor').then(m => m.ConteudosEditor) },
+            { path: 'conteudos/:id', canDeactivate: [confirmarSaida], loadComponent: () => import('./pages/admin/conteudos-editor/conteudos-editor').then(m => m.ConteudosEditor) },
+            { path: 'paginas/:chave', canDeactivate: [confirmarSaida], loadComponent: () => import('./pages/admin/pagina-editor/pagina-editor').then(m => m.PaginaEditor) },
             { path: 'respostas', loadComponent: () => import('./pages/admin/respostas/respostas').then(m => m.Respostas) }
         ]
     },

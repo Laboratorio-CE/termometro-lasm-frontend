@@ -1,23 +1,25 @@
-<div class="h-screen flex flex-col">
-  <header class="border-b">
-    <div class="mx-auto max-w-180 px-5 h-18 flex items-center font-semibold">
-      {{title()}}
-    </div>
-  </header>
+<div class="min-h-screen flex flex-col">
+  <div class="sticky top-0 z-10 bg-papel">
+    <header class="border-b border-linha">
+      <div class="mx-auto max-w-180 px-5 h-18 flex items-center text-lg font-semibold text-roxo">
+        {{title()}}
+      </div>
+    </header>
 
-  <nav class="border-b">
-    <ul class="mx-auto max-w-180 px-5 flex gap-6 overflow-x-auto">
-      @for (aba of abas; track aba.rota) {
-        <li>
-          <a [routerLink]="aba.rota"
-             routerLinkActive="border-b-[3px] font-medium"
-             class="block py-3 whitespace-nowrap">{{ aba.texto }}</a>
-        </li>
-      }
-    </ul>
-  </nav>
+    <nav class="border-b border-linha">
+      <ul class="mx-auto max-w-180 px-5 flex gap-6 overflow-x-auto">
+        @for (aba of abas; track aba.rota) {
+          <li>
+            <a [routerLink]="aba.rota"
+               routerLinkActive="border-roxo! font-medium text-roxo!"
+               class="block py-3 whitespace-nowrap border-b-3 border-transparent text-tinta-suave hover:text-roxo">{{ aba.texto }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
 
-  <main class="flex-1 min-h-0 px-5 py-6 bg-slate-900 text-white flex flex-col items-center justify-center text-2xl font-bold">
+  <main class="mx-auto w-full max-w-180 flex-1 px-5 py-6">
     <router-outlet />
   </main>
 </div>

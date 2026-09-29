@@ -1,1 +1,4 @@
-<p>checkin works!</p>
+<h1 class="text-2xl font-semibold text-roxo mb-2">{{ pagina()?.titulo || 'Check-in emocional' }}</h1>
+@if (pagina()?.corpo) {
+  <p class="whitespace-pre-line">{{ pagina()?.corpo }}</p>
+}

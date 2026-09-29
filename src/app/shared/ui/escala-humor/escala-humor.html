@@ -1,0 +1,10 @@
+<div class="grid grid-cols-5 gap-2">
+  @for (n of niveis; track n.valor) {
+    <button type="button" (click)="nivel.set(n.valor)" [attr.aria-pressed]="nivel() === n.valor"
+            class="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-cartao border-2 px-1 py-3 text-center text-sm leading-tight"
+            [class]="nivel() === n.valor ? n.selecionado + ' -translate-y-1 font-semibold shadow-sm' : 'border-linha bg-papel'">
+      <span aria-hidden="true" class="size-3 rounded-full" [class]="n.ponto"></span>
+      {{ n.rotulo }}
+    </button>
+  }
+</div>

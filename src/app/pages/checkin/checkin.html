@@ -1,4 +1,47 @@
-<h1 class="text-2xl font-semibold text-roxo mb-2">{{ pagina()?.titulo || 'Check-in emocional' }}</h1>
+<h1 class="text-2xl font-semibold text-roxo mb-2">{{ pagina()?.titulo || 'Como você está hoje?' }}</h1>
 @if (pagina()?.corpo) {
-  <p class="whitespace-pre-line">{{ pagina()?.corpo }}</p>
+  <p class="mb-6 whitespace-pre-line">{{ pagina()?.corpo }}</p>
+}
+
+@if (enviado()) {
+  <p role="status" class="rounded-cartao bg-verde-claro p-6 text-center text-verde-texto">
+    Check-in registrado. Obrigado por reservar este momento para você.
+  </p>
+} @else {
+  <div class="flex flex-col gap-8 rounded-cartao bg-superficie p-5 sm:p-8">
+    <fieldset>
+      <legend class="mb-3 font-medium">Nível de energia e bem-estar</legend>
+      <app-escala-humor [(nivel)]="nivel" />
+    </fieldset>
+
+    <fieldset>
+      <legend class="mb-3 font-medium">O que pesou hoje? <span class="text-sm font-normal text-tinta-suave">(opcional)</span></legend>
+      <div class="flex flex-wrap gap-2">
+        @for (c of opcoesContexto; track c.valor) {
+          <button type="button" (click)="alternarContexto(c.valor)" [attr.aria-pressed]="contextos().includes(c.valor)"
+                  class="min-h-11 cursor-pointer rounded-full border px-4"
+                  [class]="contextos().includes(c.valor) ? 'border-roxo bg-roxo text-papel' : 'border-linha bg-papel text-tinta hover:bg-roxo-claro'">
+            {{ c.rotulo }}@if (contextos().includes(c.valor)) { <span aria-hidden="true"> ✓</span> }
+          </button>
+        }
+      </div>
+    </fieldset>
+
+    <div class="flex flex-col gap-2">
+      <label for="comentario" class="font-medium">Quer escrever algo? <span class="text-sm font-normal text-tinta-suave">(opcional)</span></label>
+      <textarea #campo id="comentario" rows="4" maxlength="500" class="campo resize-y"
+                placeholder="Escreva livremente o que vier à cabeça."
+                [value]="comentario()" (input)="comentario.set(campo.value)"></textarea>
+      <span class="self-end text-xs text-tinta-suave">{{ comentario().length }} / 500</span>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <button type="button" (click)="registrar()" [disabled]="nivel() === null || enviando()" class="botao-primario w-full">
+        {{ enviando() ? 'Registrando…' : 'Registrar check-in' }}
+      </button>
+      @if (erro()) {
+        <p role="alert" class="text-ambar-texto">{{ erro() }}</p>
+      }
+    </div>
+  </div>
 }
